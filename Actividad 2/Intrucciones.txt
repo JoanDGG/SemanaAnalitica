@@ -1,5 +1,0 @@
-Para correr el programa, simplemente debe tener el archivo 'data.csv' dentro de la misma carpeta del programa Estadisticas.py
-
-Después de ello, puede llamar a la función mostrar_datos() con el nombre de la columna que desee revisar.
-
-:)
