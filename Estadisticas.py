@@ -28,6 +28,19 @@ print(df.dtypes)
 # Quita los renglones (axis=0) que contienen cualquier columna vacía
 df.dropna(axis = 0, how = 'any', inplace = True)
 
+def mostrar_datos(nombre):
+    if(nombre in list(df.columns)):
+        columna = df[nombre.lower()]
+        print("\n{0:-^75}".format(f" Datos de {columna.head().name} "))
+        print(f"Valores unicos:\n{columna.unique()}")
+        print(f"\nValor maximo:\t\t{columna.max()}")
+        print(f"Valor minimo:\t\t{columna.min()}")
+        print(f"Media:\t\t\t{columna.mean()}")
+        print(f"Mediana:\t\t{columna.median()}")
+        print(f"Desviacion estandar:\t{columna.std()}")
+    else:
+        print(f"\nColumna '{nombre}' no encontrada")
+
 # =============================================================================
 # Mapa de calor
 # =============================================================================
@@ -48,25 +61,12 @@ class Modelo:
         self.variable1 = variable1
         self.variable2 = variable2
         self.comparativa()
-        
-    def mostrar_datos(self, nombre):
-        if(nombre in list(df.columns)):
-            columna = df[nombre.lower()]
-            print("\n{0:-^75}".format(f" Datos de {columna.head().name} "))
-            print(f"Valores unicos:\n{columna.unique()}")
-            print(f"\nValor maximo:\t\t{columna.max()}")
-            print(f"Valor minimo:\t\t{columna.min()}")
-            print(f"Media:\t\t\t{columna.mean()}")
-            print(f"Mediana:\t\t{columna.median()}")
-            print(f"Desviacion estandar:\t{columna.std()}")
-        else:
-            print(f"\nColumna '{nombre}' no encontrada")
-            
+    
     def comparativa(self):
         print("\n{0:=^75}".format(" Comparativa entre " + self.variable1 
                                   + " y " + self.variable2 + " "))
-        self.mostrar_datos(self.variable1)
-        self.mostrar_datos(self.variable2)
+        mostrar_datos(self.variable1)
+        mostrar_datos(self.variable2)
         
         # =====================================================================
         # Histograma
