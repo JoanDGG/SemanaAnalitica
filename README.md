@@ -11,8 +11,8 @@ El programa ya lee el archivo csv al inicializar el programa, para realizar un a
 
 Adicionalmente, puede utilizar las funciones que requiera, ya sea para un análisis de datos individual o predictivo:
 
-- Para revisar la información de una columna, se puede llamar a la funcion mostrar_datos() con el nombre de la columna deseada
-- Para hacer una predicción de un dato con el modelo generado, es necesario llamar a la función k_means() del modelo que haya creado, este requiere de el valor de k, y las coordenadas x y y del valor a analizar.
+- Para revisar la información de una columna, se puede llamar a la funcion ```mostrar_datos()``` con el nombre de la columna deseada
+- Para hacer una predicción de un dato con el modelo generado, es necesario llamar a la función ```k_means()``` del modelo que haya creado, este requiere de el valor de k, y las coordenadas x y y del valor a analizar.
 
 ## Consideraciones
 Dada la naturaleza del archivo ```data.csv```, todos los elementos dentro de este deben ser valores numéricos.
