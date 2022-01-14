@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.cluster import KMeans
+
 # =============================================================================
 # Ruta del archivo. Se debe llamar "data" y debe estar en la misma carpeta
 # =============================================================================
@@ -32,6 +33,7 @@ def mostrar_datos(nombre):
     if(nombre in list(df.columns)):
         columna = df[nombre.lower()]
         print("\n{0:-^75}".format(f" Datos de {columna.head().name} "))
+        print(df[nombre].describe(), "\n")
         print(f"Valores unicos:\n{columna.unique()}")
         print(f"\nValor maximo:\t\t{columna.max()}")
         print(f"Valor minimo:\t\t{columna.min()}")
@@ -52,8 +54,7 @@ plt.title("Mapa de calor de correlacion")
 plt.show()
 
 # =============================================================================
-# Analisis de datos por columna. 
-# Las columnas seleccionadas son energy y danceability
+# Analisis de datos por columna
 # =============================================================================
 class Modelo:
     
@@ -67,7 +68,7 @@ class Modelo:
                                   + " y " + self.variable2 + " "))
         mostrar_datos(self.variable1)
         mostrar_datos(self.variable2)
-        
+        print("\n{0:-^75}".format(f" Diagramas y graficas comparativas "))
         # =====================================================================
         # Histograma
         # =====================================================================
@@ -134,16 +135,61 @@ class Modelo:
             plt.scatter(valor1, valor2, marker = "*", 
                         c = "midnightblue", s = 100)
         
+        
         plt.xlabel(self.variable1)
         plt.ylabel(self.variable2)
         plt.legend(loc = "upper right")
-        plt.title("Mapa de K-means de modelo")
+        plt.title("Mapa de K-means del modelo")
+
+        self.plot_regression_line(self.estimate_coef())
+
+
+    def estimate_coef(self):
+        # Codigo proporcionado por Geeksforgeeks: 
+        # https://www.geeksforgeeks.org/linear-regression-python-implementation/
+        
+        x = df[self.variable1]
+        y = df[self.variable2]
+        
+        # number of observations/points
+        n = np.size(x)
+     
+        # mean of x and y vector
+        m_x = np.mean(x)
+        m_y = np.mean(y)
+     
+        # calculating cross-deviation and deviation about x
+        SS_xy = np.sum(y * x) - n * m_y * m_x
+        SS_xx = np.sum(x * x) - n * m_x * m_x
+     
+        # calculating regression coefficients
+        b_1 = SS_xy / SS_xx
+        b_0 = m_y - b_1*m_x
+        
+        return (b_0, b_1)
+     
+    def plot_regression_line(self, b):
+        # =====================================================================
+        # Regresion linear
+        # =====================================================================
+        # Codigo proporcionado por Geeksforgeeks: 
+        # https://www.geeksforgeeks.org/linear-regression-python-implementation/
+
+        # predicted response vector
+        y_pred = b[0] + b[1] * df[self.variable1]
+
+        # plotting the regression line
+        plt.plot(df[self.variable1], y_pred, color = "g")
+
+        # function to show plot
         plt.show()
+        
+        print(f"\nCoeficientes de la recta:\n\tInterseccion del eje y:\t {b[0]}"
+             +f"\n\tPendiente: \t\t{b[1]}")
 
 # =============================================================================
-# Pruebas
+# Ejecucion y pruebas
 # =============================================================================
 modelo = Modelo("acousticness", "energy")
-#modelo = Modelo("danceability", "energy")
 
 modelo.k_means(3, 0.5, 0.5)
